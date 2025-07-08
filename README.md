@@ -1,6 +1,6 @@
 # Interactive Semantic Knowledge Graph Explorer
 
-This project is a full-stack web application that allows users to ingest unstructured text, automatically extract entities and relationships, store them in a SPARQL-compliant RDF Triplestore (Apache Jena Fuseki), and explore the resulting knowledge graph through an interactive visual interface.
+This project is a full-stack web application that allows users to ingest unstructured text, automatically extract entities and relationships, store them in a SPARQL-compliant RDF Triplestore (GraphDB), and explore the resulting knowledge graph through an interactive visual interface.
 
 ## Features
 
@@ -8,14 +8,14 @@ This project is a full-stack web application that allows users to ingest unstruc
 -   **Text Ingestion**: Simple interface to paste text for analysis.
 -   **NLP Extraction (MVP)**: A basic rule-based service extracts entities (`Person`, `Organization`) and relationships (`worksAt`).
 -   **SPARQL Integration**: Uses SPARQL to `INSERT` and `SELECT` data from an RDF triplestore.
--   **Graph Database**: Powered by **Apache Jena Fuseki**.
+-   **Graph Database**: Powered by **GraphDB**.
 -   **Interactive Visualization**: A rich, interactive graph explorer built with **React Flow**.
 
 ## Technical Stack
 
 -   **Frontend**: React, TypeScript, Vite, Tailwind CSS, Zustand, React Flow
 -   **Backend**: Node.js, Express, TypeScript, Zod, JWT
--   **Database**: Apache Jena Fuseki (or any SPARQL 1.1 compliant triplestore)
+-   **Database**: GraphDB
 
 ---
 
