@@ -27,6 +27,7 @@
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.0.10",
+    "@types/sparql-http-client": "^3.0.5",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.8.3"
   }

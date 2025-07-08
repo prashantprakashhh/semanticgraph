@@ -8,17 +8,10 @@ import ReactFlow, {
   addEdge,
   Connection,
   Edge,
-  Node,
 } from 'reactflow';
-import 'reactflow/dist/style.css'; // Import the new styles
+import 'reactflow/dist/style.css';
 import { apiGetGraphData } from '../api';
 import LoadingSpinner from '../components/common/LoadingSpinner';
-
-const nodeTypeColors: { [key: string]: string } = {
-  Person: '#4A90E2',
-  Organization: '#50E3C2',
-  default: '#E350D3',
-};
 
 const GraphExplorerPage = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
@@ -32,34 +25,23 @@ const GraphExplorerPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       try {
         const res = await apiGetGraphData();
+        if (!res.ok) {
+          throw new Error('Failed to fetch data from server');
+        }
         const data = await res.json();
         
-        const flowNodes: Node[] = data.nodes.map((node: any) => ({
-          id: node.id,
-          data: { label: node.data.label },
-          position: { x: Math.random() * 400, y: Math.random() * 400 },
-          style: { 
-              background: nodeTypeColors[node.type] || nodeTypeColors.default, 
-              color: 'white',
-              border: '1px solid #222',
-              width: 150,
-          },
-        }));
+        // The backend now sends data in the correct format, so we can use it directly
+        setNodes(data.nodes || []);
+        setEdges(data.edges || []);
 
-        const flowEdges: Edge[] = data.edges.map((edge: any) => ({
-          id: edge.id,
-          source: edge.source,
-          target: edge.target,
-          label: edge.label,
-          arrowHeadType: 'arrowclosed',
-        }));
-
-        setNodes(flowNodes);
-        setEdges(flowEdges);
       } catch (error) {
         console.error('Failed to fetch graph data:', error);
+        // Set to empty arrays on failure to avoid crashes
+        setNodes([]);
+        setEdges([]);
       } finally {
         setIsLoading(false);
       }
@@ -84,10 +66,11 @@ const GraphExplorerPage = () => {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         fitView
+        style={{ background: '#1A202C' }}
       >
         <MiniMap />
         <Controls />
-        <Background color="#aaa" gap={16} />
+        <Background color="#4A5568" gap={16} />
       </ReactFlow>
     </div>
   );

@@ -26,23 +26,10 @@ This project is a full-stack web application that allows users to ingest unstruc
 -   [Node.js](https://nodejs.org/) (v18 or later)
 -   [Docker](https://www.docker.com/) (for running the database)
 
-#### 1. Database Setup (Apache Jena Fuseki)
+#### 1. Database Setup (GraphDB)
 
-Run an Apache Jena Fuseki instance using Docker. This command will start a server on `http://localhost:3030`.
+ docker run -d -p 7200:7200 --name graphdb ontotext/graphdb:10.1.2
 
-```bash
-docker run -d --name fuseki -p 3030:3030 -e ADMIN_PASSWORD="your_admin_password" stain/jena-fuseki
-```
-
-After it's running, you need to create a dataset.
-1.  Go to `http://localhost:3030`.
-2.  Log in with user `admin` and the password you set.
-3.  Click on "manage datasets" -> "add new dataset".
-4.  Enter a **Dataset name** (e.g., `ds`).
-5.  Choose **Persistent** for the dataset type.
-6.  Click "create dataset".
-
-Your SPARQL endpoint for this dataset will be `http://localhost:3030/ds`.
 
 #### 2. Backend Setup
 
@@ -81,7 +68,7 @@ The frontend will be available at `http://localhost:5173`.
 ### How to Use the Application
 
 1.  **Register & Login**: Open the app in your browser, register a new user, and log in.
-2.  **Ingest Data**: Navigate to the **Ingestion** page. Paste text containing recognizable patterns, such as `"Steve Wozniak works at Apple Inc."`. Click "Ingest Text".
+2.  **Ingest Data**: Navigate to the **Ingestion** page. Paste text containing recognizable patterns, such as `"Steve Jobs works at Apple Inc."`. Click "Ingest Text".
 3.  **Explore Graph**: Navigate to the **Explore Graph** page. The graph will update to show the new nodes and relationships you just created. You can drag nodes, zoom, and pan to explore the connections.
 
 ### API Endpoints
@@ -94,3 +81,8 @@ The frontend will be available at `http://localhost:5173`.
 ### NLP Simplification Note
 
 The Natural Language Processing (NLP) in this project (`backend/src/services/nlp.ts`) is a **simplified placeholder**. It uses basic regular expressions to identify entities and relationships. For a production environment, this module should be replaced with a more robust solution like SpaCy, a cloud-based NLP service (Google NLP, Amazon Comprehend), or a more advanced NLP library.
+
+
+
+TO CLEAR DB - 
+curl -X DELETE http://localhost:3001/api/clear-db

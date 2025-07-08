@@ -1,3 +1,4 @@
+// backend/src/routes/auth.ts
 import { Router } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -5,11 +6,8 @@ import { z } from 'zod';
 import { config } from '../config';
 
 const router = Router();
+const users: any[] = []; // Users stored in memory, reset on server restart
 
-// In-memory user store (replace with a database in production)
-const users: any[] = [];
-
-// Schema for validating registration and login requests
 const authSchema = z.object({
   username: z.string().min(3, "Username must be at least 3 characters long"),
   password: z.string().min(6, "Password must be at least 6 characters long"),
@@ -34,6 +32,7 @@ router.post('/register', async (req, res) => {
     if (error instanceof z.ZodError) {
       return res.status(400).json({ message: 'Invalid data', details: error.errors });
     }
+    console.error('[AUTH] Register error:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
@@ -60,6 +59,7 @@ router.post('/login', async (req, res) => {
     if (error instanceof z.ZodError) {
       return res.status(400).json({ message: 'Invalid data', details: error.errors });
     }
+    console.error('[AUTH] Login error:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
