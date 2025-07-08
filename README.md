@@ -38,8 +38,6 @@ This project is a full-stack web application that allows users to ingest unstruc
 cd backend
 
 # Create a .env file from the contents in the project description
-# and update FUSEKI_URL if you used a different dataset name.
-# FUSEKI_URL="http://localhost:3030/ds"
 
 # Install dependencies
 npm install
