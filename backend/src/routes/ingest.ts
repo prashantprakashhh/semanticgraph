@@ -1,4 +1,3 @@
-// backend/src/routes/ingest.ts
 import { Router } from 'express';
 import SparqlClient from 'sparql-http-client';
 import { extractEntitiesAndRelationships } from '../services/nlp';
@@ -8,15 +7,18 @@ const router = Router();
 const SKG = 'http://semantic-knowledge-graph.org/ontology#';
 
 router.post('/', async (req, res) => {
-  const client = new SparqlClient({ endpointUrl: config.fusekiUrl });
+  // Create a new client for each request to ensure it gets the loaded config
+  // const client = new SparqlClient({ endpointUrl: config.fusekiUrl });
+  const client = new SparqlClient({ endpointUrl: `${config.fusekiUrl}/update` });
   const { text } = req.body;
+
   if (!text) {
     return res.status(400).json({ message: 'Text is required' });
   }
   try {
     const { entities, relationships } = extractEntitiesAndRelationships(text);
     if (entities.size === 0) {
-      return res.status(200).json({ message: 'No new entities found.' });
+      return res.status(200).json({ message: 'No new entities or relationships found.' });
     }
     let triples = '';
     entities.forEach((type, name) => {

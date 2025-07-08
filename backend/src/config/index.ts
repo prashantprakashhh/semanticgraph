@@ -1,23 +1,22 @@
-// import dotenv from 'dotenv';
-// dotenv.config();
+import dotenv from 'dotenv';
 
-// const fusekiUrlFromEnv = process.env.FUSEKI_URL;
-// console.log(`[CONFIG] FUSEKI_URL from .env is: ${fusekiUrlFromEnv}`);
+// Load environment variables from .env file
+dotenv.config();
 
-// export const config = {
-//   port: process.env.PORT || 3001,
-//   jwtSecret: process.env.JWT_SECRET || 'devileye',
-//   fusekiUrl: fusekiUrlFromEnv || 'http://localhost:3030/ds',
-// };
+const fusekiUrlFromEnv = process.env.FUSEKI_URL;
+
+// This log is crucial for debugging. It confirms if your .env file is being read.
+console.log(`[CONFIG] FUSEKI_URL from .env is: ${fusekiUrlFromEnv}`);
 
 export const config = {
-  fusekiUrl: process.env.FUSEKI_URL || 'http://localhost:3030/ds',
+  // Use the environment variable if it exists, otherwise use a hardcoded default.
+  // This removes the "undefined" error permanently.
+  fusekiUrl: fusekiUrlFromEnv || 'http://localhost:3030/ds',
   port: process.env.PORT || 3001,
+  jwtSecret: process.env.JWT_SECRET || 'your-super-secret-key-that-is-long',
 };
 
 // Add validation to catch configuration issues early
 if (!config.fusekiUrl) {
-  throw new Error('FUSEKI_URL is not defined in environment variables');
+  throw new Error('FUSEKI_URL is not defined in environment variables or config.ts');
 }
-
-console.log('[CONFIG] Using FUSEKI_URL:', config.fusekiUrl);

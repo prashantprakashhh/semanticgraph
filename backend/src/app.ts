@@ -1,4 +1,3 @@
-// backend/src/app.ts
 import express from 'express';
 import cors from 'cors';
 import authRoutes from './routes/auth';
@@ -11,7 +10,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Public route for authentication
 app.use('/api/auth', authRoutes);
+
+// Protected routes that require a valid JWT
 app.use('/api/ingest', protect, ingestRoutes);
 app.use('/api/graph', protect, graphRoutes);
 

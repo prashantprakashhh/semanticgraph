@@ -1,4 +1,3 @@
-// backend/src/routes/graph.ts
 import { Router } from 'express';
 import SparqlClient from 'sparql-http-client';
 import { config } from '../config';
@@ -9,13 +8,11 @@ const SKG = 'http://semantic-knowledge-graph.org/ontology#';
 const parseSparqlResults = (bindings: any[]) => {
     const nodes = new Map();
     const edges = new Set<string>();
-
     bindings.forEach(binding => {
         if (!binding.source || !binding.target || !binding.rel) return;
         const sourceUri = binding.source.value;
         const targetUri = binding.target.value;
         const relType = binding.rel.value.replace(SKG, '');
-
         if (!nodes.has(sourceUri)) {
             nodes.set(sourceUri, {
                 id: sourceUri,
@@ -33,7 +30,6 @@ const parseSparqlResults = (bindings: any[]) => {
         const edgeId = `${sourceUri}|${relType}|${targetUri}`;
         edges.add(edgeId);
     });
-
     const edgeArray = Array.from(edges).map(edge => {
         const parts = edge.split('|');
         const source = parts[0];
@@ -41,14 +37,12 @@ const parseSparqlResults = (bindings: any[]) => {
         const type = parts.slice(1, -1).join('|');
         return { id: edge, source, target, label: type };
     });
-
     return { nodes: Array.from(nodes.values()), edges: edgeArray };
 };
 
 router.get('/data', async (req, res) => {
-    // Create the client here, just like in ingest.ts
+    // Create a new client for each request
     const client = new SparqlClient({ endpointUrl: config.fusekiUrl });
-
     const query = `
       PREFIX skg: <${SKG}>
       PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -62,7 +56,6 @@ router.get('/data', async (req, res) => {
         FILTER(?rel != skg:hasName && ?rel != rdf:type)
       }
     `;
-
     try {
         const stream = await client.query.select(query);
         const bindings: any[] = [];
