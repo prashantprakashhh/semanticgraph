@@ -78,7 +78,7 @@ The frontend will be available at `http://localhost:5173`.
 
 ### NLP Simplification Note
 
-The Natural Language Processing (NLP) in this project (`backend/src/services/nlp.ts`) is a **simplified placeholder**. It uses basic regular expressions to identify entities and relationships. For a production environment, this module should be replaced with a more robust solution like SpaCy, a cloud-based NLP service (Google NLP, Amazon Comprehend), or a more advanced NLP library.
+The Natural Language Processing (NLP) in this project (`added nlp patterns in ingest.ts`) is a **simplified placeholder**. It uses basic regular expressions to identify entities and relationships. For a production environment, this module should be replaced with a more robust solution like SpaCy, a cloud-based NLP service (Google NLP, Amazon Comprehend), or a more advanced NLP library.
 
 
 
