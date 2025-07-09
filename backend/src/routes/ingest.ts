@@ -4,8 +4,6 @@ import { config } from '../config';
 const router = Router();
 const SKG = 'http://semantic-knowledge-graph.org/ontology#';
 
-// --- FINAL, MORE PRECISE NLP LOGIC ---
-
 const toUriSafe = (text: string): string => {
     return text.trim().replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_');
 };
